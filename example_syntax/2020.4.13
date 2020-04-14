@@ -1,0 +1,39 @@
+
+// only possible w/ change
+print while; // prints: <macro:native>
+
+
+partial application of while operator
+let wcond = while (: rand () > 0 );
+let actions = [
+	(: print "ff" ),
+	(: print "gg" )
+];
+actions.for_each wcond;
+
+// without changes
+let wcond = (: while (: rand() > 0 ) arg );
+let actions = [
+	(: print("ff") ),
+	(: print("gg") )
+];
+actions.for_each(wcond);
+
+
+// example of a curried macro
+let add = (:
+  let a = arg;
+  // partially applies a and returns another macro
+  return (:
+    let b = arg;
+    return a+b;
+  );
+);
+// calling a curried macro
+add 1 2;
+
+// always possible
+let n = 0;
+while (: n < 10) (: 
+    n += 1;
+);
