@@ -1,5 +1,5 @@
-#async/muli threading
-
+# async/multi threading planning
+Obviously this all depends on having a VM with a kickass eventloop and other supporting infastructure. 
 
 ## basic macro syntax:
 - literal: `(: )`
