@@ -1,0 +1,48 @@
+let Point = (:
+
+	// coord pair passed as argument
+	let [ x, y ] = i;
+	
+	let translate = (:
+		let [ dx, dy ] = i;
+		x += dx;
+		y += dy;
+	);
+	
+	let scale = (:
+		let factor = i;
+		x *= factor;
+		y *= factor;
+	);
+	
+	// returns coord pair
+	let coord = (: o([x, y]); );
+	
+	o({
+		// x and y cannot be accessed directly, 
+		//  but are still referenced by these methods 
+		translate, scale, coord
+	});
+
+);
+
+
+let pt = Point(1, 2);
+
+pt.scale(2);
+print(pt.coord()); // [2, 4]
+
+pt.translate(4, 2);
+print(pt.coord()); // [6, 6]
+
+
+print(pt.x); // empty
+
+// can move these references to public members tho
+let [x, y] = pt.coord();
+pt.x = x;
+pt.y = y;
+
+pt.scale(2);
+print(pt.x); // 12
+
