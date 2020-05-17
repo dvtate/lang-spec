@@ -1,0 +1,59 @@
+let json = import("json");
+
+let Point = struct((: [ Float, Float, Float ] ));
+
+// create a constructor for type Player from template
+let Player = struct((:
+	let self = i;
+
+	o({
+		name : String,
+		position : Point,
+		level : Int,
+		__depict : 
+	});
+));
+
+
+let p1 = Player({
+	name: "JOE2",
+	position : [ 1, 2 ],
+});
+
+
+
+print(json.copy(p1));
+/*
+{
+	name: "JOE2",
+	position : [ 1, 2, 0 ],
+	level : 0
+}
+*/
+
+
+let center_player = (:
+	let p = i;
+	while ((: p.position[0] || p.position[1] || p.position[2] ), (: 
+		if (p.position, (: 
+		
+		
+		));
+		position = position - 1
+
+	));
+
+
+);
+
+// operator/function overloading
+(+) = (+).overload((:([String, String] -> String)
+	let ret = i[0];
+	ret = ret.concat(i[1]);
+	o(ret);
+));
+
+
+(+) = (+).overload((: ([String, String] -> String)
+	i[0].concat(i[1])
+));
