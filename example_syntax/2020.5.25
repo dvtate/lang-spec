@@ -1,0 +1,55 @@
+
+/* Ideas:
+- import();
+- tc
+- async/parallel
+
+*/
+
+// NOTE: type annotations optional and can be deduced in most cases
+
+
+const ddg = import("duckduckgo");
+const scrape = import("html-extract-text");
+const sentiment = import("sentiment");
+
+// other threads get run until input received
+const term : String = input();
+
+const ddg_results : ddg.SearchResult[] = future(
+
+// function to calculate sentiment of search result
+const result_sentiment = (: (ddg.SearchResult->Num)
+
+	// we start downloading and extracting full text of given search result into an eventual
+	const full_text : Future<String>
+		= Future.async(scrape.scrape_url)(i.url);
+
+	// calc sentiment for result entry
+	const title_s : Num = sentiment.calc(i.title);
+	const summ_s  : Num = sentiment.calc(i.summary);
+
+	// sentiment for full-text
+	const full_s : Num = sentiment.calc(full_text.await());
+	
+	// weigh different sections differently
+	o(title_s * 0.4 + summ_s * 0.4 + full_s * 0.2);
+ 
+);
+
+
+  const total = grades.reduce((acc, c) => acc + c, 0);
+  return total / grades.length;
+  
+  
+// calculate sentiment for all results in parallel
+const sentiments : Num[] = ddg_results.map(
+	Future.parallel(result_sentiment)
+).map((: o(i.await()) ));
+
+
+// add all the sentiments together
+const total = sentiments.reduce((+), 0);
+const avg_sentiment = total / sentiments.size();
+
+print("Average sentiment for term: " + avg_sentiment);
