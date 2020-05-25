@@ -13,10 +13,10 @@ const ddg = import("duckduckgo");
 const scrape = import("html-extract-text");
 const sentiment = import("sentiment");
 
-// other threads get run until input received
+// Default action is to freeze thread until result is received
+//  during this time other threads/procs can run/continue to run
 const term : String = input();
-
-const ddg_results : ddg.SearchResult[] = future(
+const ddg_results : ddg.SearchResult[] = ddg.search(term);
 
 // function to calculate sentiment of search result
 const result_sentiment = (: (ddg.SearchResult->Num)
@@ -36,9 +36,10 @@ const result_sentiment = (: (ddg.SearchResult->Num)
 	o(title_s * 0.4 + summ_s * 0.4 + full_s * 0.2);
  
 );
-  
-  
+
+
 // calculate sentiment for all results in parallel
+// likely will have multiprocess pool functions...
 const sentiments : Num[] = ddg_results.map(
 	Future.parallel(result_sentiment)
 ).map((: o(i.await()) ));
