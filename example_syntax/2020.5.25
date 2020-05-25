@@ -36,10 +36,6 @@ const result_sentiment = (: (ddg.SearchResult->Num)
 	o(title_s * 0.4 + summ_s * 0.4 + full_s * 0.2);
  
 );
-
-
-  const total = grades.reduce((acc, c) => acc + c, 0);
-  return total / grades.length;
   
   
 // calculate sentiment for all results in parallel
