@@ -1,0 +1,18 @@
+
+const Iterable = interface((: {
+	for_each : ((i -> Empty) -> Empty),
+	map : ((i -> a) -> Empty),
+}));
+
+const Range = class((: 
+	let self = Iterable(type(i));
+	
+{
+	from: is(Iterable()) + extends() ,
+
+
+}))
+class Range :  {
+
+
+}
