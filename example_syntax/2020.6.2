@@ -1,0 +1,41 @@
+
+
+// you can access operators by putting them in parens
+// ie: (+) : add, (()) : invoke, ([]) : index
+
+// overloading + operator to work with strings
+(+) = (+).overload((: ([String, String] -> String)
+	i[0].concat(i[1])
+));
+
+
+// alternate syntax
+(+) |= (: ([String, String] -> String)
+	i[0].concat(i[1])
+);
+
+
+// dummy class
+const MyLambdaType = Empty;//... see next post;
+
+// input updated via reference and returned by reference
+(+=) |= (: ([Int, Int] -> Int) 
+	i[0] += i[1];
+	o(i[0]);
+);
+
+// in this example we're adding support for overloading in a user-defined functor-type
+//   Only ever seen something like this done in C++ but even then it requires hundreds of lines of hacks
+(|=) |= (: ([MyLambdaType, Auto -> Auto] -> Auto)
+	i[1];
+);
+
+/*
+
+Statically Bound Object members?
+- RN thinking about internally having two types having two internal types that are indistinguishable to user
+  1. FAST: array-based impl. (member access replaced by indexing)
+  2. User Friendly: hash-table based implementation (member access)  
+- at compile time these types are converted in between each other 
+
+*/
