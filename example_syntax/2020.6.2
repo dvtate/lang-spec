@@ -26,8 +26,9 @@ const MyLambdaType = Empty;//... see next post;
 
 // in this example we're adding support for overloading in a user-defined functor-type
 //   Only ever seen something like this done in C++ but even then it requires hundreds of lines of hacks
-(|=) |= (: ([MyLambdaType, Auto -> Auto] -> Auto)
-	i[1];
+(|=) |= (: ([MyLambdaType, a -> b] -> Auto)
+	let f = i[1];
+	(()) |= (: ([MyLambdaType, a] -> b ) f(i[1]) );
 );
 
 /*
