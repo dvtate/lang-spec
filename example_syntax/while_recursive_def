@@ -1,0 +1,45 @@
+
+
+// before
+let while = (:
+	if (i[0](), (: 
+		i[1]();
+		while(i);
+		o();
+	));
+	o();
+);
+
+// after
+let while = (: 
+	if (i[0](), (: 
+		i[1]();
+		while(i);
+	)); 
+);
+
+// new meaning:
+let while = (:
+	o( if (i[0](), (:
+		i[1]();
+		o(while(i));
+	)));
+);
+
+// danger
+let while = (:
+	if ( i[0](), (:
+		// by passing o as argument, 
+		// i[1] can use i as break and o as continue
+		i[1](o);
+		while(i);
+	));
+);
+
+// solution: always return last expr, only hang when asked
+let await_request = (:
+	// passing o as callback for async action
+	async_request(i, o);
+	// freeze stack frame until o() called
+	hang();
+);
