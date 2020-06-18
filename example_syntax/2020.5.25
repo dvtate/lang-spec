@@ -1,13 +1,11 @@
 
 /* Ideas:
 - import();
-- tc
+- Type annotation and type checking
 - async/parallel
-
 */
 
-// NOTE: type annotations optional and can be deduced in most cases
-
+// NOTE: type annotations optional and should be deduced in most cases (esp. when using `const`)
 
 const ddg = import("duckduckgo");
 const scrape = import("html-extract-text");
@@ -25,16 +23,15 @@ const result_sentiment = (: (ddg.SearchResult->Num)
 	const full_text : Future<String>
 		= Future.async(scrape.scrape_url)(i.url);
 
-	// calc sentiment for result entry
+	// calc sentiment for search result as we wait on full text to download
 	const title_s : Num = sentiment.calc(i.title);
 	const summ_s  : Num = sentiment.calc(i.summary);
 
 	// sentiment for full-text
-	const full_s : Num = sentiment.calc(full_text.await());
+	const full_s : Num = sentiment.calc(full_text.get());
 	
 	// weigh different sections differently
-	o(title_s * 0.4 + summ_s * 0.4 + full_s * 0.2);
- 
+	o(title_s * 0.4 + summ_s * 0.4 + full_s * 0.2); 
 );
 
 
@@ -42,11 +39,10 @@ const result_sentiment = (: (ddg.SearchResult->Num)
 // likely will have multiprocess pool functions...
 const sentiments : Num[] = ddg_results.map(
 	Future.parallel(result_sentiment)
-).map((: o(i.await()) ));
+).map((: i.get() ));
 
-
-// add all the sentiments together
-const total = sentiments.reduce((+), 0);
+// add all the sentiments together (see: 2020.6.2)
+const total = sentiments.reduce((+), 0); 
 const avg_sentiment = total / sentiments.size();
 
 print("Average sentiment for term: " + avg_sentiment);
