@@ -1,0 +1,65 @@
+struct Square {
+	height: Num,
+	width: Num
+};
+
+const Rect = {
+	// Print to terminal
+	print: (: ([Rect] -> Empty)
+		const self = i[0];
+		range(self.height).for_each((:
+			range(self.width).for_each((:
+				print('#')
+			));
+			print('\n');
+		));
+	),
+
+	// Proportionally scale the box
+	scale: (: ([Rect, a] -> Empty)
+		i[0].height *= i[1];
+		i[0].height *= i[1];
+	),
+	
+	// constructor
+	new: (: ([Num, Num] -> Rect)
+		{ height: i[0], width: i[1] }
+	) | (: (Num -> Rect) 
+		{ height: i, width: i }
+	),
+	
+	// would be static
+	calc_golden: (: (Empty -> Num)
+		1.6178
+	)
+};
+
+const box = Rect.new({ height: 5, width: 2 });
+Rect.print([box]);
+Rect.scale(box, 2);
+Rect.print([box]);
+
+
+// Maybe have 
+const prop = input();
+box.(Str(prop)) = 5;
+box[Str(prop)] = 5;
+
+
+// class operator returns object of type `Class`
+const Rect = class {
+	height: Num,
+	width: Num,
+	__new: (: (Num -> Rect)
+		self.height = i;
+		self.width = i;
+	) | (: ([Num, Num] -> Rect)
+		self.height = i[0];
+		self.width = i[1];
+	),
+};
+
+const box = new(Rect)(20);
+
+
+const Int 
