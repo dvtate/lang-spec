@@ -1,0 +1,93 @@
+/* Concepts:
+ * - new async syntax and some examples
+ * - using
+ * - json imports
+ * - halt()
+ * - exception handling
+ */
+ 
+
+
+// some libraries
+const sql = import('mysql');
+
+// local module
+const send_email = import('./send_email');
+
+// creating a callback wrapper
+const request_cb = require('./request_cb');
+const request = (:
+	request_cb({
+		url: i, 		// forward input
+		callback: o,	// pipe output to our return function
+	});
+	
+	// prevent implicit return
+	// other threads can run while we wait
+	halt();
+);
+
+/*
+- JSON is a supported inport type
+- import() wraps file content in a macro (: ...json file contents... )
+- semicolon insertion for single statement macros (: json; )
+- default action for reaching end of macro is to return last value (: o(json); )
+- Import calls macro an returns result
+*/
+const emails = import('userData.json'); // [ emails... ]
+
+
+// email -> bool (website_did_load)
+const fetch_user_website = (: 
+	using return = o;
+	// If anything after this errors we return false
+	on_error((: return(false) ));
+	
+	// Get user from db
+	const sql_results = sql.query('SELECT website FROM users WHERE email=?', [i]);
+	const website = sql_results[0].homepage;
+	
+	// Check website
+	const resp = request(website);
+	return(resp.status == 200);
+);
+
+// Go through the list of emails and if their website fails to load then send them an email
+emails.map((:
+	using email = i;
+	async((: 
+		// catch
+		on_error((: print('failed to verify user: ' + email)));
+		
+		using site_loaded = fetch_user_website(email);
+		if (!site_loaded, (:
+			send_email(email, '
+Hey fellow netizen,
+Sorry to disturb, but we noticed that the homepage you registered seems to be
+unavailable and failed to load. We'd reccomend looking into this if it wasn't intentional.
+Thanks, 
+Network Bot
+			')
+		));
+	));
+)).for_each((: i() ));
+
+// equiv to window.setTimeout
+const set_timeout = (:
+	using args = i; // rename i to args
+	async((:
+		sleep(args.delay);
+		args.fun(args.i);
+	));
+);
+
+// takes a function and returns a closure
+// this is equiv to covnerting a promise to a fn with callback
+const async_callback_wrapper = (:
+	using fn = i;
+	// return a closure
+	o((:
+		using args = i;
+		async((: args.callback(fn(args.args)) ));
+	));
+);
