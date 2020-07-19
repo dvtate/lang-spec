@@ -1,0 +1,37 @@
+
+
+
+# constructor fxn
+const Car = (:
+
+	let self = {};
+
+	[ self.make, self.model ] = arg;
+
+	self.fuel = 0;
+	self.fuel_cap = 10;
+	self.fuel_rate = 35;
+	self.mileage = 0;
+	
+	self.drive = (:
+		if (arg > self.fuel * self.fuel_rate) (:
+			arg = self.fuel * self.fuel_rate;
+		)
+		self.mileage += arg;
+		self.fuel -= arg / self.fuel_rate;
+		
+		print(["drove %s miles, consuming %s gallons of fuel", dist, dist / self.fuel_rate]);
+	);
+	
+	self.refuel = (:
+		if (arg > self.fuel_cap - self.fuel)
+			arg = self.fuel_cap - self.fuel;
+		self.fuel += arg;
+		print @ ("Added " + arg + " gallons of fuel to tank");
+	);
+	
+	self.__String = (:
+		return "Car: " + self.make + " - " + self.model + " %s";
+	);
+	
+);
