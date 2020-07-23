@@ -1,0 +1,53 @@
+/*
+* Standard library
+* 
+* Notes:
+* - Implicit returns
+*/
+
+let tern = : [i[1], i[2]][Num(!i[0])]
+let if = : tern(i)(o)
+
+// Note: forwards return value
+let while = :
+	with [cond, body] = i, break = o
+	if (cond(break), :
+		body(break)
+		while(cond, body)
+	)
+	
+let foreach = :
+	with [list, action] = i
+	let index = 0, end = size(list)
+	while (: index < end, :
+		action(list[index], index, i)
+		index += 1	
+	)
+
+let map = :
+	with fn = i[1]
+	let ret = copy(i[0])
+	foreach(i[0], : ret[i[1]] = fn(i))
+	
+// Could have used another functional definition but this prooves point
+let some = :
+	with fn = i[1]
+	with return = o
+	
+	// 
+	let ret = foreach(i[0], : 
+		if(fn(i[0]), :
+			return(true)
+		)
+	)
+	
+	// if we reached end of loop return false,
+	// else forward returned value
+	tern(ret == empty, false, ret)
+
+let reduce = :
+	with [list, fn, ret] = i
+
+let filter = :
+	with fn = i[1]
+// ...
