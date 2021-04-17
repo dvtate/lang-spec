@@ -1,2 +1,2 @@
 # lang-spec
-gathering ideas for my next scripting language
+gathering fleeting thoughts for my PLs
