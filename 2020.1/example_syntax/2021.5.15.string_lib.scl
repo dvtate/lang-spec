@@ -1,0 +1,34 @@
+// str.scl
+
+let str = {}
+
+// String a contains a char in string b
+str.contains = (:
+	let haystack = i[0], needle = i[1],
+		ret = o
+	foreach(haystack, (:
+		let c = i
+		foreach(needle, (:
+			if (i == c, (:
+				ret(true)))))))
+	false
+)
+
+// Split string a along delimiters b
+str.split = (:
+	let s = i[0], delim = i[1],
+		idx = 0, token = "",
+		ret = []
+	while ((: idx < length(i) ), (:
+		if (str.contains(s[idx],  delim), (: 
+			ret = ret + [token]
+			token = ""
+		), (:
+			token = token + s[idx]
+		))
+		idx = idx + 1
+	))
+	ret
+)
+
+o(str)
