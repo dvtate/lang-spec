@@ -1,0 +1,47 @@
+<?php
+{
+	1 2 3 4 5
+}
+
+{
+	1 2 Print dup + 
+	
+}
+
+{ $a = $b = b a - } $cl =
+
+"abc" 123 [() { $a = $b = b a - }]
+"abc" [(a: 123) { $b = b a - }]
+[(a: 123, b: "abc") { b a - }]
+[(a: 123, b: "abc") { "abc" a - }]
+[(a: 123, b: "abc") { "abc" 123 - }]
+
+((I32 I32): $a = $b = b a - ) $sub =
+$sub ~ type (I32 I32) (I32) Arrow ==
+	1
+	0
+		tern $fn_right_type =
+
+
+
+
+((I32 I32): $a = $b = b a - ) type
+# Steps to -->
+( I32 I32 )
+( e_1 e_2 ((I32 I32): $a = $b = b a - ) @ ) type
+	Arrow
+# where e_1 and e_2 are any/all values of type I32
+
+
+call $cond 
+if
+	;; if true
+else
+	;; if false
+end
+
+
+process expressions to values
+
+
+?>
