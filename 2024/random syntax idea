@@ -1,0 +1,20 @@
+
+// Declaration
+x: u32 = 5
+y := 55; // inferred as i32
+z : f64; // declared but not initialized
+
+// Assignment
+x = 433;
+y = x;
+
+
+// a is type u32, b is inferred at callsite, return type is inferred
+func f(a: u32, b) { ... }
+
+// take 2 args of same type, any type, returns bool
+func g(a: 'T, b: 'T): bool { ... }
+
+// take 2 args where a and b are any int type (the same int type), return type is inferred
+func h(a: 'T, b: 'T) { ... }
+
